@@ -100,23 +100,6 @@ func add_random_square():
 		var number=4 if randf()<0.1 else 2
 		grid_squares[cell.y][cell.x]=number
 
-func get_line_movement_shift_one_time(line:Array,origins:Array):
-	for i in range(line.size()-1):
-		line[i]=line[i+1]
-		origins[i]=origins[i+1].duplicate(true)
-	line[-1]=0
-	origins[-1].clear()
-
-func get_line_movement_shift(line:Array,origins:Array):
-	var index:=-1
-	for i in line.size():
-		if line[i]!=0:
-			index=i
-			break
-	if index!=-1:
-		for i in range(index):
-			get_line_movement_shift_one_time(line,origins)
-
 func get_line_movement_join(line:Array,origins:Array,index:int)->bool:
 	if line[index]!=0:
 		if line[index]==line[index+1]:
@@ -126,6 +109,23 @@ func get_line_movement_join(line:Array,origins:Array,index:int)->bool:
 				line[i]=line[i+1]
 			origins[-1].clear()
 			line[-1]=0
+		else:
+			var index_b:=index+1
+			while index_b<line.size():
+				if line[index_b]==line[index]:
+					break
+				elif line[index_b]!=0:
+					return true
+				index_b+=1
+			if index_b>=line.size():
+				return true
+			
+			for i in range(index+1,line.size()-1):
+				origins[i]=origins[i+1].duplicate(true)
+				line[i]=line[i+1]
+			origins[-1].clear()
+			line[-1]=0
+			return false
 	else:
 		var full_zeros:=true
 		for i in range(index,line.size()):
@@ -151,8 +151,6 @@ func get_line_movement(original_line:Array,direction:int)->Array:
 	var origins:=[]
 	for i in original_line.size():
 		origins.append([i])
-	
-	#get_line_movement_shift(line,origins)
 	
 	var index:=0
 	while index<original_line.size()-1:
@@ -222,6 +220,8 @@ func _on_movement_timer_timeout() -> void:
 	movement_end()
 
 func can_move()->bool:
+	if not get_free_cells().is_empty():
+		return true
 	for y in range(grid_size.y):
 		for x in range(grid_size.x-1):
 			if grid_squares[y][x]==grid_squares[y][x+1]:

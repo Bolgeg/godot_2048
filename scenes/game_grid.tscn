@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6tpsw205ocvu"]
+
+[ext_resource type="PackedScene" uid="uid://d0klg2lg2llwr" path="res://scenes/grid_cell.tscn" id="1_7e7bg"]
+[ext_resource type="Script" uid="uid://d0irgf0jg42fu" path="res://scripts/game_grid.gd" id="1_45miw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ex4i4"]
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="GameGrid" type="Control"]
+custom_minimum_size = Vector2(640, 640)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 640.0
+script = ExtResource("1_45miw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ex4i4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="GridCell" parent="MarginContainer/GridContainer" instance=ExtResource("1_7e7bg")]
+layout_mode = 2
+
+[node name="GridCell2" parent="MarginContainer/GridContainer" instance=ExtResource("1_7e7bg")]
+layout_mode = 2
+
+[node name="GridCell3" parent="MarginContainer/GridContainer" instance=ExtResource("1_7e7bg")]
+layout_mode = 2
+
+[node name="GridCell4" parent="MarginContainer/GridContainer" instance=ExtResource("1_7e7bg")]
+layout_mode = 2
+
+[node name="MovementTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true
+
+[node name="SquareContainer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]

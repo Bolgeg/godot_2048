@@ -9,8 +9,12 @@ var target_number:=2048
 
 var already_won:=false
 
+var undo_uses_left:=3
+
 var grid_squares:=[]
 var grid_squares_to_move:=[]
+
+var grid_squares_history:=[]
 
 func _ready() -> void:
 	populate_grid_container()
@@ -241,11 +245,14 @@ func check_if_won_or_lost():
 	elif target_reached() and not already_won:
 		won.emit()
 
-func make_move(direction:Vector2i):
+func stop_movement():
 	var timer:Timer=%MovementTimer
 	if not timer.is_stopped():
 		timer.stop()
 		movement_end()
+
+func make_move(direction:Vector2i):
+	stop_movement()
 	
 	var changed:=false
 	if direction.x!=0:
@@ -258,4 +265,23 @@ func make_move(direction:Vector2i):
 				changed=true
 	
 	if changed:
-		timer.start()
+		grid_squares_history.append(grid_squares.duplicate(true))
+		%MovementTimer.start()
+
+func get_score()->int:
+	var maximum:=0
+	for y in range(grid_size.y):
+		for x in range(grid_size.x):
+			if grid_squares[y][x]>maximum:
+				maximum=grid_squares[y][x]
+	return maximum
+
+func get_undo_uses_left()->int:
+	return undo_uses_left
+
+func undo():
+	if undo_uses_left>0 and not grid_squares_history.is_empty():
+		stop_movement()
+		grid_squares=grid_squares_history[-1].duplicate(true)
+		grid_squares_history.remove_at(grid_squares_history.size()-1)
+		undo_uses_left-=1

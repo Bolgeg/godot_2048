@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvjuvpl0ow7mm"]
+[gd_scene load_steps=8 format=3 uid="uid://cvjuvpl0ow7mm"]
 
 [ext_resource type="PackedScene" uid="uid://c6tpsw205ocvu" path="res://scenes/game_grid.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://ddgdfjsrq7gc5" path="res://scripts/game.gd" id="1_yqjtg"]
@@ -32,6 +32,10 @@ corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
+resource_local_to_scene = true
+bg_color = Color(0, 0, 0, 0.501961)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_yqjtg")
@@ -138,4 +142,132 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_lbhrr")
 theme_override_styles/normal = SubResource("StyleBoxFlat_iywne")
 text = "Undo"
 
+[node name="GameOverMessage" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverPanel" type="Panel" parent="CanvasLayer/GameOverMessage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameOverMessage/GameOverPanel"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GameOverMessage/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 64
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TryAgainButton" type="Button" parent="CanvasLayer/GameOverMessage/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxFlat_lnu2h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lbhrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_iywne")
+text = "Try again"
+
+[node name="YouWinMessage" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="YouWinPanel" type="Panel" parent="CanvasLayer/YouWinMessage"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/YouWinMessage/YouWinPanel"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 64
+text = "You Win"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 32
+
+[node name="PlayAgainButton" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxFlat_lnu2h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lbhrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_iywne")
+text = "Keep going"
+
+[node name="PlayAgainButton2" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxFlat_lnu2h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lbhrr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_iywne")
+text = "Play again"
+
+[node name="MessageTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+one_shot = true
+
+[connection signal="lost" from="CanvasLayer/GameGrid" to="." method="_on_game_grid_lost"]
+[connection signal="won" from="CanvasLayer/GameGrid" to="." method="_on_game_grid_won"]
 [connection signal="pressed" from="CanvasLayer/GridContainer/UndoButton" to="." method="_on_undo_button_pressed"]

@@ -55,3 +55,16 @@ func update_you_win_message_color():
 	if %YouWinMessage.visible:
 		var t=1-%MessageTimer.time_left/%MessageTimer.wait_time
 		%YouWinPanel.get_theme_stylebox("panel").bg_color=Color8(255,255,0,lerp(0,128,t))
+
+func _on_keep_going_button_pressed() -> void:
+	keep_going()
+
+func keep_going():
+	%YouWinMessage.visible=false
+	game_stopped=false
+
+func _on_try_again_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
+func _on_play_again_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/game.tscn")

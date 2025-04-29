@@ -235,7 +235,7 @@ func can_move()->bool:
 func target_reached()->bool:
 	for y in range(grid_size.y):
 		for x in range(grid_size.x):
-			if grid_squares[y][x]==target_number:
+			if grid_squares[y][x]>=target_number:
 				return true
 	return false
 
@@ -244,6 +244,7 @@ func check_if_won_or_lost():
 		lost.emit()
 	elif target_reached() and not already_won:
 		won.emit()
+		already_won=true
 
 func stop_movement():
 	var timer:Timer=%MovementTimer

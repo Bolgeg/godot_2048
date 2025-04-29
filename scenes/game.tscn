@@ -243,7 +243,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 32
 
-[node name="PlayAgainButton" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
+[node name="KeepGoingButton" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -253,7 +253,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_lbhrr")
 theme_override_styles/normal = SubResource("StyleBoxFlat_iywne")
 text = "Keep going"
 
-[node name="PlayAgainButton2" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
+[node name="PlayAgainButton" type="Button" parent="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -271,3 +271,6 @@ one_shot = true
 [connection signal="lost" from="CanvasLayer/GameGrid" to="." method="_on_game_grid_lost"]
 [connection signal="won" from="CanvasLayer/GameGrid" to="." method="_on_game_grid_won"]
 [connection signal="pressed" from="CanvasLayer/GridContainer/UndoButton" to="." method="_on_undo_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOverMessage/GameOverPanel/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer/KeepGoingButton" to="." method="_on_keep_going_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/YouWinMessage/YouWinPanel/VBoxContainer/HBoxContainer/PlayAgainButton" to="." method="_on_play_again_button_pressed"]

@@ -17,6 +17,8 @@ var grid_squares_to_move:=[]
 var grid_squares_history:=[]
 
 func _ready() -> void:
+	grid_size=Globals.grid_size
+	target_number=Globals.target_number
 	populate_grid_container()
 	initialize_grid_squares()
 	populate_square_container()
